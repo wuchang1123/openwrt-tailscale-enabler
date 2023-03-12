@@ -2,7 +2,7 @@
 
 set -e
 
-if [ ! -f /tmp/tailscale ]; then
+if [ ! -f /etc/tailscale/tailscale ]; then
     arch=`uname -m`
     if [ "$arch" == "mips" ]; then
         endianness=`echo -n I | hexdump -o | awk '{ print (substr($2,6,1)=="1") ? "le" : ""; exit }'`
@@ -27,16 +27,16 @@ if [ ! -f /tmp/tailscale ]; then
 
     echo -e "tailscale_${version}/tailscale" > /tmp/tailscale_${version}_files.txt
 
-    if [ ! -f /tmp/tailscaled ]; then
+    if [ ! -f /etc/tailscale/tailscaled ]; then
         echo -e "tailscale_${version}/tailscaled" >> /tmp/tailscale_${version}_files.txt
     fi
 
     wget -O- https://pkgs.tailscale.com/stable/tailscale_${version}.tgz | tar x -zvf - -C /tmp -T /tmp/tailscale_${version}_files.txt
 
-    mv /tmp/tailscale_$version/* /tmp
+    mv /tmp/tailscale_$version/* /etc/tailscale
     rm -rf /tmp/tailscale_${version}*
 
     echo "Done!"
 fi
 
-/tmp/tailscale "$@"
+/etc/tailscale/tailscale "$@"

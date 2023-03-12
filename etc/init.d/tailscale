@@ -18,7 +18,7 @@ start_service() {
   procd_append_param command --port 41641
 
   # OpenWRT /var is a symlink to /tmp, so write persistent state elsewhere.
-  procd_append_param command --state /etc/config/tailscaled.state
+  procd_append_param command --state /etc/tailscale/tailscaled.state
   
   # Persist files for TLS cert & Taildrop files
   procd_append_param command --statedir /etc/tailscale/
